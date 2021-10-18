@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+
+<section class="container pb-3">
+    <h1 style="margin-top:30px">
+        Gerenciar contatos de: <span th:text="${Person.firstName}"></span>
+    </h1>
+    <table class="table table-striped">
+        <thead>
+        <th  colspan="2">Contato</th>
+        <th>Tipo</th>
+        <th colspan="2">Ações</th>
+        </thead>
+        <tbody>
+        <tr th:each="contato : ${Person.phones}">
+            <td colspan="2" th:text="${contato.number}"></td>
+            <td th:text="${contato.type}"></td>
+            <td><a href="#" th:href="${'/v1/people/editContact/'+Person.id+'/'+contato.id}"> Editar Contato</a></td>
+            <td><a href="#" th:href="${'/v1/people/delete/'+contato.id+'/'+{Person.id}+'/'}"> Remover </a></td>
+        </tr>
+        </tbody>
+    </table>
+        <form th:action="${'/v1/people/'+link+'/'+Person.id}" th:object="${Phone}" method="post" class="form">
+            <input name="number" type="hidden" th:field="*{id}">
+                <div class="mb-3 text-left">
+                    <span class="form-label" >Tipo:</span>
+                    <select class="form-select"  th:field="*{type}" name="type" >
+                        <option value="HOME"> Residencial </option>
+                        <option value="COMMERCIAL"> Escritorio </option>
+                        <option value="MOBILE"> Movel </option>
+                    </select>
+                </div>
+                <div class="mb-3 text-left">
+                    <span class="form-label" >Contato:</span>
+                    <input name="number" class="form-control" autofocus th:field="*{number}" placeholder="(21) 99999-9999">
+                </div>
+            <a class="btn btn-secondary" th:href="${'/v1/people/adicionarContato/'+Person.id}"> Adicionar Contato </a>
+            <input class="btn btn-primary" type="submit" value="Guardar as Alterações">
+        </form>
+    <a href="#" th:href="@{../}"> Listar Pessoas</a>
+</section>
+
+<script>
+</script>
+</body>
+</html>
+
